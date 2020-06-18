@@ -48,8 +48,8 @@ def main():
     trade_dates = _find_range(trade_dates)
 
     # Output Starting Conditions
-    print(f'Starting cash: ${STARTING_CASH}')
-    print(f'Monthly cash: ${MONTHLY_CASH}')
+    print(f'Starting cash: ${STARTING_CASH:,.2f}')
+    print(f'Monthly cash: ${MONTHLY_CASH:,.2f}')
     print(f'Trading Start: {trade_dates[0]}')
     print(f'Trading End: {trade_dates[-1]}')
     print('')
@@ -69,7 +69,7 @@ def main():
         name = strat.name()
         result = strat.total_balance(market)
         contribs = strat.total_contributions()
-        print(f'{name} ended with ${result} from ${contribs} in contributions')
+        print(f'{name} ended with ${result:,.2f} from ${contribs:,.2f} in contributions')
 
 
 if __name__ == '__main__':
