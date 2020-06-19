@@ -1,3 +1,7 @@
+import math
+
+import market as mkt
+
 class Strategy:
     def __init__(self, starting_cash, monthly_cash):
         self._contributions = starting_cash
@@ -37,14 +41,21 @@ class Strategy:
         for ticker, holding in self._holdings.items():
             quote = market.get_quote(ticker)
             if quote:
-                price = quote['close'] # TODO - configure which price to use
+                price = quote['close']
                 total += price * holding['qty']
         return total
 
-    def buy(self, ticker, qty, market):
+    def max_buy(self, ticker, market):
         quote = market.get_quote(ticker)
         if quote:
-            price = quote['open'] # TODO - configure which price to use
+            price = quote[mkt.OPEN]
+            return math.floor(self.cash_balance() / price)
+        return 0
+
+    def buy(self, ticker, qty, market, order_time = mkt.OPEN):
+        quote = market.get_quote(ticker)
+        if quote:
+            price = quote[order_time]
             cost = qty * price
             self._cash -= cost
             if ticker in self._holdings:
@@ -59,17 +70,17 @@ class Strategy:
         else:
             print(f'Error getting quote for {ticker}')
 
-    def sell(self, ticker, qty, market):
-        quote = market.get_quote()
+    def sell(self, ticker, qty, market, order_time = mkt.OPEN):
+        quote = market.get_quote(ticker)
         if quote:
-            price = quote['open'] # TODO - configure which price to use
+            price = quote[order_time]
             cost = qty * price
             self._cash += cost
             if ticker in self._holdings:
                 orig_basis = self._holdings[ticker]['qty'] * self._holdings[ticker]['avgcost']
-                self._holdings['ticker']['qty'] -= qty
+                self._holdings[ticker]['qty'] -= qty
                 if self._holdings[ticker]['qty'] != 0:
-                    self._holdings['ticker']['avgcost'] = (orig_basis - cost) / self._holdings[ticker]['qty']
+                    self._holdings[ticker]['avgcost'] = (orig_basis - cost) / self._holdings[ticker]['qty']
                 else:
                     self._holdings.pop(ticker, None)
             else:

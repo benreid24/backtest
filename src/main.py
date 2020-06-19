@@ -4,6 +4,7 @@ import sys
 import data
 from market import Market
 from strategies.buyhold import BuyAndHold
+import strategies.waverider as waverider
 
 START_DATE = date(2011, 1, 3)
 END_DATE = date(2020, 6, 17)
@@ -11,7 +12,12 @@ STARTING_CASH = 10000
 MONTHLY_CASH = 1000
 STRATEGIES = [
     BuyAndHold('SPY', STARTING_CASH, MONTHLY_CASH),
-    BuyAndHold('SPXL', STARTING_CASH, MONTHLY_CASH)
+    BuyAndHold('SPXL', STARTING_CASH, MONTHLY_CASH),
+    waverider.WaveRider(waverider.PRICE_DOWN, True, STARTING_CASH, MONTHLY_CASH),
+    waverider.WaveRider(waverider.PRICE_UP, True, STARTING_CASH, MONTHLY_CASH),
+    waverider.WaveRider(waverider.VOLUME, True, STARTING_CASH, MONTHLY_CASH),
+    waverider.WaveRider(waverider.PRICE_DOWN, False, STARTING_CASH, MONTHLY_CASH),
+    waverider.WaveRider(waverider.PRICE_UP, False, STARTING_CASH, MONTHLY_CASH),
 ]
 
 
