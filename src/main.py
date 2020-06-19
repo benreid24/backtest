@@ -5,6 +5,9 @@ import data
 from market import Market
 from strategies.buyhold import BuyAndHold
 import strategies.waverider as waverider
+from strategies.opentoclose import OpenToClose
+from strategies.closetoopen import CloseToOpen
+from strategies.markettimer import MarketTimer
 
 START_DATE = date(2011, 1, 3)
 END_DATE = date(2020, 6, 17)
@@ -18,6 +21,12 @@ STRATEGIES = [
     waverider.WaveRider(waverider.VOLUME, True, STARTING_CASH, MONTHLY_CASH),
     waverider.WaveRider(waverider.PRICE_DOWN, False, STARTING_CASH, MONTHLY_CASH),
     waverider.WaveRider(waverider.PRICE_UP, False, STARTING_CASH, MONTHLY_CASH),
+    OpenToClose('SPY', STARTING_CASH, MONTHLY_CASH),
+    OpenToClose('SPXL', STARTING_CASH, MONTHLY_CASH),
+    CloseToOpen('SPY', STARTING_CASH, MONTHLY_CASH),
+    CloseToOpen('SPXL', STARTING_CASH, MONTHLY_CASH),
+    MarketTimer('SPY', STARTING_CASH, MONTHLY_CASH),
+    MarketTimer('SPXL', STARTING_CASH, MONTHLY_CASH),
 ]
 
 
